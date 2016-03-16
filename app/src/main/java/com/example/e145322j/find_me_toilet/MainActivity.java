@@ -3,15 +3,18 @@ package com.example.e145322j.find_me_toilet;
 import android.app.Activity;
 import android.app.DownloadManager;
 import android.content.Intent;
+import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.util.JsonReader;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,13 +49,20 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         toilets = Toilet.loadData(this);
-        Button btn = (Button) findViewById(R.id.button);
+        Button btn = (Button) findViewById(R.id.submit);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 goPlace();
             }
         });
+        Spinner spin = (Spinner)findViewById(R.id.spinner);
+        ArrayList nbDisplay = new ArrayList();
+        for(int i = 0; i < 11; i++){
+            nbDisplay.add(i);
+        }
+        ArrayAdapter<Integer> aa = new ArrayAdapter<Integer>(this, android.R.layout.simple_spinner_dropdown_item, nbDisplay);
+        spin.setAdapter(aa);
 
 
     }
@@ -78,6 +88,12 @@ public class MainActivity extends Activity {
                 Toast.makeText(this, close.get(0).getId(), Toast.LENGTH_LONG).show();
             }
         }
+    }
+
+    public void fillListView(ArrayList<Toilet> closest){
+        ListView lv = (ListView)findViewById(R.id.list_toilet);
+        lv.setVisibility(View.GONE);
+        //TODO finir
     }
 
 
