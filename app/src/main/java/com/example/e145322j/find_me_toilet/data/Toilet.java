@@ -12,6 +12,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.e145322j.find_me_toilet.R;
+import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -65,8 +66,39 @@ public class Toilet {
 
     }
 
+    public static ArrayList<Toilet> getClosestToilet(ArrayList<Toilet> toilets, LatLng location){
+            ArrayList<Toilet> closest = null;
+            double minDist = 1000000;
+            double lat = location.latitude;
+            double lng = location.longitude;
+            for(Toilet t : toilets){
+                double dist = Math.sqrt(Math.pow((t.getLatitude() - lat), 2)+Math.pow((t.getLongitude() - lng),2));
+                if(dist < minDist){
+                    minDist = dist;
+                    closest.add(t);
+                }
+            }
+        return closest;
+    }
+
+    public double getLatitude(){
+        String locT = location;
+        locT = locT.replace("[", "");
+        locT = locT.replace("]", "");
+        String[] latlng = locT.split(",");
+        return Double.parseDouble(latlng[0]);
+    }
+
+    public double getLongitude(){
+        String locT = location;
+        locT = locT.replace("[", "");
+        locT = locT.replace("]", "");
+        String[] latlng = locT.split(",");
+        return Double.parseDouble(latlng[1]);
+    }
+
     public static ArrayList<Toilet> loadData(Context context){
-        ArrayList<Toilet> toilets = new ArrayList<>();
+       final ArrayList<Toilet> toilet = new ArrayList<>();
         RequestQueue queue = Volley.newRequestQueue(context);
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
                 (Request.Method.GET, URL_JSON, null, new Response.Listener<JSONObject>() {
@@ -79,7 +111,7 @@ public class Toilet {
                             int len = array.length();
                             for (int i = 0; i < len; i++) {
                                 Toilet t = new Toilet(array.getJSONObject(i));
-                                toilets.add(t);
+                                toilet.add(t);
                             }
                         }catch(JSONException e){
                             e.printStackTrace();
@@ -94,7 +126,7 @@ public class Toilet {
                     }
                 });
         queue.add(jsObjRequest);
-        return toilets;
+        return toilet;
     }
 
     public String getId() {
