@@ -20,6 +20,12 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.SortedSet;
+import java.util.TreeMap;
 
 /**
  * Created by E145322J on 16/03/16.
@@ -66,18 +72,22 @@ public class Toilet {
 
     }
 
-    public static ArrayList<Toilet> getClosestToilet(ArrayList<Toilet> toilets, LatLng location){
+    public static ArrayList<Toilet> getClosestToilet(ArrayList<Toilet> toilets, LatLng location, int nb){
             ArrayList<Toilet> closest = null;
-            double minDist = 1000000;
+            Map<Double, Toilet> toiletDistance = new HashMap<>();
             double lat = location.latitude;
             double lng = location.longitude;
             for(Toilet t : toilets){
                 double dist = Math.sqrt(Math.pow((t.getLatitude() - lat), 2)+Math.pow((t.getLongitude() - lng),2));
-                if(dist < minDist){
-                    minDist = dist;
-                    closest.add(t);
-                }
+                toiletDistance.put(dist, t);
             }
+        ArrayList<Double> dist = new ArrayList<>();
+        dist.addAll(toiletDistance.keySet());
+        Collections.sort(dist);
+        for(int i = 0 ; i<nb; i++){
+            closest.add(toiletDistance.get(dist.get(i)));
+        }
+
         return closest;
     }
 

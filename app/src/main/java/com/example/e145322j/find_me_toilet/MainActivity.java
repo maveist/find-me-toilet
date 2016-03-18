@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -42,6 +43,7 @@ import java.util.List;
 
 public class MainActivity extends Activity {
     public static int PLACE_PICKER_REQUEST = 1;
+    public static int NUMBER_TUPLE = 1;
 
     private ArrayList<Toilet> toilets;
     @Override
@@ -63,6 +65,17 @@ public class MainActivity extends Activity {
         }
         ArrayAdapter<Integer> aa = new ArrayAdapter<Integer>(this, android.R.layout.simple_spinner_dropdown_item, nbDisplay);
         spin.setAdapter(aa);
+        spin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                NUMBER_TUPLE = Integer.parseInt(parent.getSelectedItem().toString());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
 
     }
@@ -83,9 +96,10 @@ public class MainActivity extends Activity {
         if (requestCode == PLACE_PICKER_REQUEST) {
             if (resultCode == RESULT_OK) {
                 Place place = PlacePicker.getPlace(data, this);
-                ArrayList<Toilet> close = Toilet.getClosestToilet(toilets, place.getLatLng());
-                Log.v("prout", close.get(0).getLocation());
-                Toast.makeText(this, close.get(0).getId(), Toast.LENGTH_LONG).show();
+                ArrayList<Toilet> closest = Toilet.getClosestToilet(toilets, place.getLatLng(), NUMBER_TUPLE);
+                Log.v("prout", closest.get(0).getLocation());
+                Toast.makeText(this, closest.get(0).getId(), Toast.LENGTH_LONG).show();
+                fillListView(closest);
             }
         }
     }
