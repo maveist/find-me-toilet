@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
@@ -26,12 +27,14 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.e145322j.find_me_toilet.adapter.ToiletAdapter;
 import com.example.e145322j.find_me_toilet.data.Toilet;
 import com.google.android.gms.appdatasearch.GetRecentContextCall;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -58,6 +61,8 @@ public class MainActivity extends Activity {
                 goPlace();
             }
         });
+
+        //spinner pour le choix de nombre de tuple
         Spinner spin = (Spinner)findViewById(R.id.spinner);
         ArrayList nbDisplay = new ArrayList();
         for(int i = 0; i < 11; i++){
@@ -77,8 +82,28 @@ public class MainActivity extends Activity {
             }
         });
 
+        //initialisation de listview
+        ListView lv = (ListView) findViewById(R.id.list_toilet);
+        lv.setAdapter(new ToiletAdapter(this, toilets));
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toilet toilet = (Toilet) parent.getItemAtPosition(position);
+                goDetailToilet(toilet);
+            }
+        });
+
 
     }
+
+    public void goDetailToilet(Toilet toilet){
+        Gson gson = new Gson();
+        String toiletJson = gson.toJson(toilet, Toilet.class);
+        Intent in = new Intent(this, ToiletActivity.class);
+        in.putExtra(Intent.EXTRA_TEXT, toiletJson);
+        startActivity(in);
+    }
+
 
     public void goPlace(){
 
@@ -106,8 +131,8 @@ public class MainActivity extends Activity {
 
     public void fillListView(ArrayList<Toilet> closest){
         ListView lv = (ListView)findViewById(R.id.list_toilet);
-        lv.setVisibility(View.GONE);
-        //TODO finir
+        lv.setVisibility(View.VISIBLE);
+        lv.setAdapter(new ToiletAdapter(this, closest));
     }
 
 

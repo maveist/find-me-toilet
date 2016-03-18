@@ -73,7 +73,8 @@ public class Toilet {
     }
 
     public static ArrayList<Toilet> getClosestToilet(ArrayList<Toilet> toilets, LatLng location, int nb){
-            ArrayList<Toilet> closest = null;
+            Log.v("nb", Integer.toString(nb));
+            ArrayList<Toilet> closest = new ArrayList<>();
             Map<Double, Toilet> toiletDistance = new HashMap<>();
             double lat = location.latitude;
             double lng = location.longitude;
@@ -84,7 +85,7 @@ public class Toilet {
         ArrayList<Double> dist = new ArrayList<>();
         dist.addAll(toiletDistance.keySet());
         Collections.sort(dist);
-        for(int i = 0 ; i<nb; i++){
+        for(int i = 0 ; i < nb; i++){
             closest.add(toiletDistance.get(dist.get(i)));
         }
 
@@ -137,6 +138,30 @@ public class Toilet {
                 });
         queue.add(jsObjRequest);
         return toilet;
+    }
+
+    public String addressToString(){
+        return adresse+", "+commune;
+    }
+
+    public String detailToString(){
+        String str ="";
+        if(type != null){
+            str += "Type: "+type;
+        }else{
+            str += ", Type: Non renseigné";
+        }
+        if(handiAccess){
+            str += ", Accès handicapé: oui";
+        }else{
+            str += ", Accès handicapé: non";
+        }
+        if(automatique){
+            str += ", Automatique: oui";
+        }else{
+            str += ", Automatique: non";
+        }
+        return str;
     }
 
     public String getId() {
