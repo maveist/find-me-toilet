@@ -99,7 +99,7 @@ public class MainActivity extends Activity {
     public void goDetailToilet(Toilet toilet){
         Gson gson = new Gson();
         String toiletJson = gson.toJson(toilet, Toilet.class);
-        Intent in = new Intent(this, ToiletActivity.class);
+        Intent in = new Intent(this, ToiletScrollActivity.class);
         in.putExtra(Intent.EXTRA_TEXT, toiletJson);
         startActivity(in);
     }

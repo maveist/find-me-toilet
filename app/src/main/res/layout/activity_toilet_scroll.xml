@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.e145322j.find_me_toilet.ToiletScrollActivity">
+
+
+    <LinearLayout
+        android:orientation="vertical">
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="103dp"
+        android:layout_weight="0.04"
+        android:id="@+id/street_view_container">
+        <fragment
+            android:name="com.google.android.gms.maps.StreetViewPanoramaFragment"
+            android:id="@+id/streetviewpanorama"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </FrameLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:gravity="center"
+        android:textColor="#fff"
+        android:background="#1565c0"
+        android:paddingTop="15px"
+        android:paddingBottom="15px"
+        android:id="@+id/t_address"
+        android:layout_gravity="center_horizontal" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Medium Text"
+        android:id="@+id/t_details" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/map_container">
+        <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+            android:name="com.google.android.gms.maps.MapFragment"
+            android:id="@+id/map"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"/>
+
+    </FrameLayout>
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

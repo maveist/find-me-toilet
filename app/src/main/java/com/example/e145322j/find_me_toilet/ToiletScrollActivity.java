@@ -26,7 +26,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
 
 
-public class ToiletActivity extends FragmentActivity implements OnMapReadyCallback, OnStreetViewPanoramaReadyCallback {
+public class ToiletScrollActivity extends FragmentActivity implements OnMapReadyCallback, OnStreetViewPanoramaReadyCallback {
 
     private Toilet toilet;
     private GoogleMap map;
@@ -107,3 +107,4 @@ public class ToiletActivity extends FragmentActivity implements OnMapReadyCallba
 
     }
 }
+
