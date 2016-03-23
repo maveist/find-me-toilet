@@ -65,7 +65,7 @@ public class MainActivity extends Activity {
         //spinner pour le choix de nombre de tuple
         Spinner spin = (Spinner)findViewById(R.id.spinner);
         ArrayList nbDisplay = new ArrayList();
-        for(int i = 0; i < 11; i++){
+        for(int i = 1; i < 11; i++){
             nbDisplay.add(i);
         }
         ArrayAdapter<Integer> aa = new ArrayAdapter<Integer>(this, android.R.layout.simple_spinner_dropdown_item, nbDisplay);
@@ -99,7 +99,7 @@ public class MainActivity extends Activity {
     public void goDetailToilet(Toilet toilet){
         Gson gson = new Gson();
         String toiletJson = gson.toJson(toilet, Toilet.class);
-        Intent in = new Intent(this, ToiletScrollActivity.class);
+        Intent in = new Intent(this, ToiletActivity.class);
         in.putExtra(Intent.EXTRA_TEXT, toiletJson);
         startActivity(in);
     }

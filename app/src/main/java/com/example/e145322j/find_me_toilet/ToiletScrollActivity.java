@@ -3,11 +3,13 @@ package com.example.e145322j.find_me_toilet;
 import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.widget.TextView;
 
 import com.example.e145322j.find_me_toilet.data.Toilet;
@@ -34,18 +36,34 @@ public class ToiletScrollActivity extends FragmentActivity implements OnMapReady
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_toilet);
+        setContentView(R.layout.collapsing_layout);
         Bundle bund = getIntent().getExtras();
         String toiletJson = bund.getString(Intent.EXTRA_TEXT);
         if(toiletJson != null){
             Gson gson = new Gson();
             toilet = gson.fromJson(toiletJson, Toilet.class);
         }
+        this.setTitle(toilet.addressToString());
+
 
         TextView address = (TextView)findViewById(R.id.t_address);
         address.setText(toilet.addressToString());
-        TextView details = (TextView)findViewById(R.id.t_details);
-        details.setText(toilet.detailToString());
+      /*TextView details = (TextView)findViewById(R.id.t_details);
+        details.setText(toilet.detailToString());*/
+        TextView type = (TextView)findViewById(R.id.t_type);
+        type.setText("Type: " + toilet.getType());
+        TextView handiAcces = (TextView)findViewById(R.id.t_access_handi);
+        if(toilet.isHandiAccess()) {
+            handiAcces.setText("Accès handicapé: oui");
+        }else{
+            handiAcces.setText("Accès handicapé: non");
+        }
+        TextView automatique = (TextView)findViewById(R.id.t_auto);
+        if(toilet.isAutomatique()){
+            automatique.setText("Automatique: oui");
+        }else{
+            automatique.setText("Automatique: non");
+        }
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -59,6 +77,7 @@ public class ToiletScrollActivity extends FragmentActivity implements OnMapReady
 
 
     }
+
 
     @Override
     public void onMapReady(GoogleMap maps) {

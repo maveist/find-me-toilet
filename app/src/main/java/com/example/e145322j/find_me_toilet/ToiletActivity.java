@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -41,19 +42,29 @@ public class ToiletActivity extends FragmentActivity implements OnMapReadyCallba
             Gson gson = new Gson();
             toilet = gson.fromJson(toiletJson, Toilet.class);
         }
-
-        TextView address = (TextView)findViewById(R.id.t_address);
-        address.setText(toilet.addressToString());
-        TextView details = (TextView)findViewById(R.id.t_details);
-        details.setText(toilet.detailToString());
+        this.setTitle(toilet.addressToString());
+        TextView type = (TextView)findViewById(R.id.t_type);
+        type.setText("Type: "+toilet.getType());
+        TextView handiAcces = (TextView)findViewById(R.id.t_access_handi);
+        if(toilet.isHandiAccess()) {
+            handiAcces.setText("Accès handicapé: oui");
+        }else{
+            handiAcces.setText("Accès handicapé: non");
+        }
+        TextView automatique = (TextView)findViewById(R.id.t_auto);
+        if(toilet.isAutomatique()){
+            automatique.setText("Automatique: oui");
+        }else{
+            automatique.setText("Automatique: non");
+        }
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         map = mapFragment.getMap();
-        StreetViewPanoramaFragment streetViewPanoramaFragment =
+       /* StreetViewPanoramaFragment streetViewPanoramaFragment =
                 (StreetViewPanoramaFragment) getFragmentManager()
                         .findFragmentById(R.id.streetviewpanorama);
-        streetViewPanoramaFragment.getStreetViewPanoramaAsync(this);
+        streetViewPanoramaFragment.getStreetViewPanoramaAsync(this);*/
 
 
 
