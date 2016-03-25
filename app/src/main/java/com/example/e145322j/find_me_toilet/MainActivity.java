@@ -2,8 +2,12 @@ package com.example.e145322j.find_me_toilet;
 
 import android.app.Activity;
 import android.app.DownloadManager;
+import android.content.Context;
 import android.content.Intent;
 import android.database.DataSetObserver;
+import android.location.Location;
+import android.location.LocationManager;
+import android.location.LocationProvider;
 import android.os.Bundle;
 import android.util.JsonReader;
 import android.util.Log;
@@ -32,9 +36,12 @@ import com.example.e145322j.find_me_toilet.data.Toilet;
 import com.google.android.gms.appdatasearch.GetRecentContextCall;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
+import com.melnykov.fab.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -93,8 +100,10 @@ public class MainActivity extends Activity {
             }
         });
 
+       
 
     }
+
 
     public void goDetailToilet(Toilet toilet){
         Gson gson = new Gson();
@@ -122,8 +131,6 @@ public class MainActivity extends Activity {
             if (resultCode == RESULT_OK) {
                 Place place = PlacePicker.getPlace(data, this);
                 ArrayList<Toilet> closest = Toilet.getClosestToilet(toilets, place.getLatLng(), NUMBER_TUPLE);
-                Log.v("prout", closest.get(0).getLocation());
-                Toast.makeText(this, closest.get(0).getId(), Toast.LENGTH_LONG).show();
                 fillListView(closest);
             }
         }

@@ -3,12 +3,14 @@ package com.example.e145322j.find_me_toilet;
 import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.example.e145322j.find_me_toilet.data.Toilet;
@@ -25,6 +27,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.gson.Gson;
+import com.melnykov.fab.FloatingActionButton;
 
 
 public class ToiletActivity extends FragmentActivity implements OnMapReadyCallback, OnStreetViewPanoramaReadyCallback {
@@ -61,14 +64,23 @@ public class ToiletActivity extends FragmentActivity implements OnMapReadyCallba
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         map = mapFragment.getMap();
-       /* StreetViewPanoramaFragment streetViewPanoramaFragment =
-                (StreetViewPanoramaFragment) getFragmentManager()
-                        .findFragmentById(R.id.streetviewpanorama);
-        streetViewPanoramaFragment.getStreetViewPanoramaAsync(this);*/
+        FloatingActionButton fab = (FloatingActionButton)findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                goMaps();
+            }
+        });
 
 
 
 
+    }
+
+
+    public void goMaps(){
+        Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q="+Double.toString(toilet.getLatitude())+","+Double.toString(toilet.getLongitude())));
+        this.startActivity(i);
     }
 
     @Override

@@ -3,8 +3,9 @@
     package="com.example.e145322j.find_me_toilet">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
     <uses-feature
         android:glEsVersion="0x00020000"
@@ -34,10 +35,10 @@
 
         <activity
             android:name=".ToiletActivity"
-            android:label="@string/title_activity_toilet"></activity>
+            android:label="@string/title_activity_toilet" />
         <activity
             android:name=".ToiletScrollActivity"
-            android:label="@string/title_activity_toilet_scroll"></activity>
+            android:label="@string/title_activity_toilet_scroll" />
     </application>
 
 </manifest>
